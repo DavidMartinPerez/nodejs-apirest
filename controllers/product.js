@@ -2,7 +2,7 @@ var Product = require('./../models/product')
 
 var controller = {
 
-    getProduct: function (req, res) {
+    getProduct: (req, res) => {
         let productId = req.params.productId
         log(null,'GET api/product/:'+productId)
 
@@ -14,7 +14,7 @@ var controller = {
         })
     },
 
-    getProducts: function (req, res) {
+    getProducts: (req, res) => {
         log(null,'GET api/product')
         Product.find({}, (err, products) => {
             if(err) return res.status(500).send({message: 'Error al realizar la petición:' + err})
@@ -24,7 +24,7 @@ var controller = {
         })
     },
 
-    createProduct: function (req, res) {
+    createProduct: (req, res) => {
         log(req.body,'POST /api/product')
 
         let product = new Product()
@@ -41,7 +41,7 @@ var controller = {
         })
     },
 
-    updateProduct: function (req, res) {
+    updateProduct: (req, res) => {
         let productId = req.params.productId
         let update = req.body
         log(update,'PUT /product/:'+ productId)
@@ -54,7 +54,7 @@ var controller = {
         })
     },
 
-    deleteProduct: function (req, res){
+    deleteProduct: (req, res) => {
         let productId = req.params.productId
         log(null,'DELETE /product/:'+ productId)
         Product.findById(productId, (err, product) => {
@@ -70,11 +70,11 @@ var controller = {
     }
 }
 
-function dateNow() {
+dateNow = () => {
     var dt = new Date();
     return(`${dt.getDate()}/${dt.getMonth()+1}/${dt.getFullYear()}:${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`);
 }
-function log(req,rest) {
+log = (req, rest) => {
     if(rest) console.log(dateNow() + " | " + rest)
     if(req) console.log(req)
 }

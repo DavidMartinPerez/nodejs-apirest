@@ -1,14 +1,25 @@
 'use strict'
 
-var express = require('express');
-var ProductControllers = require('../controllers/product')
+const express = require('express');
+const ProductControllers = require('../controllers/product')
+const UserController = require('../controllers/user')
+const auth = require('../middlewares/auth')
+const api = express.Router();
 
-var api = express.Router();
-
+//Product
 api.get('/product', ProductControllers.getProducts)
 api.get('/product/:productId', ProductControllers.getProduct)
-api.post('/product', ProductControllers.createProduct)
-api.put('/product/:productId', ProductControllers.updateProduct)
-api.delete('/product/:productId', ProductControllers.deleteProduct)
+api.post('/product', auth.isAuth, ProductControllers.createProduct)
+api.put('/product/:productId', auth.isAuth, ProductControllers.updateProduct)
+api.delete('/product/:productId', auth.isAuth, ProductControllers.deleteProduct)
+
+//User
+api.post('/signup', UserController.signUp)
+api.post('/signin', UserController.signIn)
+
+//private
+api.get('/private', auth.isAuth ,(req, res) => {
+    res.status(200).send( { message: 'Tienes acceso' } )
+})
 
 module.exports = api;
