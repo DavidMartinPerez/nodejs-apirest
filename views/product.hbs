@@ -1,0 +1,15 @@
+<script type="text/javascript">
+    console.log('hello')
+    const myHeaders = new Headers();
+    myHeaders.append('autorization', `Bearer ${localStorage.token}`)
+
+    fetch('/api/product', {
+        method: 'GET',
+        headers: myHeaders
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log(data)
+    })
+
+</script>

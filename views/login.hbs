@@ -1,0 +1,42 @@
+<form method="post" id="login">
+    <input type="email" id="email" name="email" placeholder="Tu email">
+    <br />
+    <input type="password" id="pass" name="password" placeholder="Tu contraseña">
+    <br />
+    <input type="submit" value="Login">
+</form>
+
+<script>
+    const formLogin = document.querySelector('#login')
+
+    formLogin.addEventListener('submit', event => {
+        const formData = new FormData(formLogin)
+        event.preventDefault();
+
+        fetch('/api/signin', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data.token)
+            localStorage.setItem('token', data.token)
+        })
+    })
+</script>
+
+<script type="text/javascript">
+    console.log('hello')
+    const myHeaders = new Headers();
+    myHeaders.append('autorization', `Bearer ${localStorage.token}`)
+
+    fetch('/api/product', {
+        method: 'GET',
+        headers: myHeaders
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log(data)
+    })
+
+</script>

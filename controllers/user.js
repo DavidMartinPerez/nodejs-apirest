@@ -19,10 +19,13 @@ var controller = {
     },
 
     signIn: (req, res) => {
-
+        console.log(req.body)
+        //TODO: Comprobar contraseña
         User.find( { email: req.body.email }, (err, user) => {
             if (err) return res.status(500).send( { message: 'Puede que ya estes registrado' } )
-            if(!user) return res.status(404).send( { message: 'No existe el usuario' } )
+            if(user[0] == undefined) {
+                return res.status(500).send( { message: 'No existe el usuario' } )
+            }
 
             req.user = user
             res.status(200).send({
