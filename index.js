@@ -1,20 +1,16 @@
 'use strict'
 
-const express = require('express')
-const bodyParser = require('body-parser')
-const port = process.env.PORT || 3000
+const mongoose = require('mongoose')
+const app = require('./app')
+const config = require('./config')
 
-const app = express()
+mongoose.connect(config.db, { useNewUrlParser: true }, (err, res)=>{
+    if(err) {
+        return console.log(`Error al conectar a la base de datos: ${err}`)
+    }
 
-
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
-
-
-app.get('/:name', (req, res)=>{
-    res.status(200).send({message:`¡Hola ${req.params.name}!`})
-})
-
-app.listen(port, ()=>{
-    console.log(`API REST corriendo en http://localhost:${port}`)
+    console.log('Conexón de base de datos establecida...')
+    app.listen(config.port, ()=>{
+        console.log(`API REST corriendo en http://localhost:${config.port}`)
+    })
 })
