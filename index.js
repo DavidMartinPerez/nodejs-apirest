@@ -11,8 +11,8 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 
-app.get('/', (req, res)=>{
-    res.status(200).send({message:'Hola mundo'})
+app.get('/:name', (req, res)=>{
+    res.status(200).send({message:`¡Hola ${req.params.name}!`})
 })
 
 app.listen(port, ()=>{
